@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fast Number Decoder</title>
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { margin: 0; padding: 12px; background: #121212; color: #fff; }
+    .container { display: flex; flex-direction: column; gap: 10px; }
+    label { font-size: 13px; color: #bbb; font-weight: bold; }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #1e1e1e;
+      color: #fff;
+      outline: none;
+    }
+    input:focus { border-color: #00e676; }
+    .btn-row { display: flex; gap: 8px; }
+    button {
+      flex: 1;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .copy-btn { background: #00e676; color: #000; }
+    .clear-btn { background: #333; color: #fff; }
+    #toast {
+      text-align: center;
+      font-size: 12px;
+      color: #00e676;
+      height: 16px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <label>1. PASTE PROBLEM STRING:</label>
+  <input 
+    type="text" 
+    id="inputBox" 
+    placeholder="Paste here (e.g. ^4&3*5!6(6)" 
+    autocomplete="off" 
+    oninput="decode()"
+  >
+
+  <label>2. OUTPUT (TAP BUTTON OR BOX TO COPY):</label>
+  <input 
+    type="text" 
+    id="outputBox" 
+    placeholder="Output appears here..." 
+    readonly 
+    onclick="copyResult()"
+  >
+
+  <div class="btn-row">
+    <button class="copy-btn" onclick="copyResult()">📋 Copy Output</button>
+    <button class="clear-btn" onclick="clearBoxes()">🗑️ Clear</button>
+  </div>
+
+  <div id="toast">Copied to clipboard!</div>
+</div>
+
+<script>
+  // Encoded runtime mappings
+  const _0x1a = JSON.parse(atob("eyIhIjoiMSIsIkAiOiIyIiwiIyI6IjMiLCIkIjoiNCIsIiUiOiI1IiwiXiI6IjYiLCImIjoiNyIsIioiOiI4IiwiKCI6IjkiLCIpIjoiMCJ9"));
+  const _0x2b = JSON.parse(atob("eyIwIjoiWmVybyIsIjEiOiJPbmUiLCIyIjoiVHdvIiwiMyI6IlRocmVlIiwiNCI6IkZvdXIiLCI1IjoiRml2ZSIsIjYiOiJTaXgiLCI3IjoiU2V2ZW4iLCI4IjoiRWlnaHQiLCI5IjoiTmluZSJ9"));
+
+  function decode() {
+    const _0x3c = document.getElementById('inputBox').value;
+    let _0x4d = [];
+    let _0x5e = [];
+
+    for (let _0x6f of _0x3c) {
+      let _0x70 = _0x1a[_0x6f] !== undefined ? _0x1a[_0x6f] : (/\d/.test(_0x6f) ? _0x6f : null);
+      if (_0x70 !== null) {
+        _0x4d.push(_0x70);
+        _0x5e.push(_0x2b[_0x70]);
+      }
+    }
+
+    if (_0x4d.length > 0) {
+      // Updated formatting to "India : "
+      document.getElementById('outputBox').value = 
+        'India : ' + _0x5e.join(' ') + ' (+91 ' + _0x4d.join('') + ')';
+    } else {
+      document.getElementById('outputBox').value = '';
+    }
+  }
+
+  function copyResult() {
+    const _0x81 = document.getElementById('outputBox');
+    if (!_0x81.value) return;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(_0x81.value).then(() => {
+        showToast("Copied to clipboard!");
+      }).catch(() => {
+        _fallbackCopy(_0x81);
+      });
+    } else {
+      _fallbackCopy(_0x81);
+    }
+  }
+
+  function _fallbackCopy(el) {
+    el.select();
+    document.execCommand('copy');
+    showToast("Copied to clipboard!");
+  }
+
+  function clearBoxes() {
+    document.getElementById('inputBox').value = '';
+    document.getElementById('outputBox').value = '';
+    document.getElementById('inputBox').focus();
+  }
+
+  function showToast(msg) {
+    const _0x92 = document.getElementById('toast');
+    _0x92.innerText = msg;
+    _0x92.style.opacity = '1';
+    setTimeout(() => { _0x92.style.opacity = '0'; }, 1200);
+  }
+</script>
+
+</body>
+</html>
